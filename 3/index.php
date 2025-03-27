@@ -109,7 +109,7 @@ catch(PDOException $e){
 
             <label>
                 Телефон:<br />
-                <input type="tel" name="phone" required />
+                <input type="tel" name="tel" required />
             </label><br />
 
             <label>
@@ -119,7 +119,7 @@ catch(PDOException $e){
 
             <label>
                 Дата рождения:<br />
-                <input type="date1" name="birthday" />
+                <input type="date" name="date1" />
             </label><br />
 
             Пол:<br />
