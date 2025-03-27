@@ -1,10 +1,89 @@
+<?php
+header('Content-Type: text/html; charset=UTF-8');
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	
+$error = FALSE;
+
+if (strlen($_POST['name1'])>150) {
+	print('Длина не более 150');
+	$error = TRUE;
+} elseif (preg_match('~[0-9]+~', $_POST['name1'])) {
+	print('Имя не должно содержать цифр')
+	$error = TRUE;
+}
+
+if (!preg_match('/^+7[0-9]{10}$/', $_POST['tel'])) {
+	print('Неверный формат');
+	$error = TRUE;
+} 
+
+if (!preg_match('~@~', $_POST['email'])) {
+	print('Должна содержать @');
+	$error = TRUE;
+}
+
+$year =(int)substr($_POST['date1'],0,4);
+if($year<1800){
+	print('Ты уже давно умер');
+	$error = TRUE;
+} elseif ($year>2025) {
+	print('Мелковат');
+	$error = TRUE;
+} 
+
+if (empty($_POST['languages'])){
+	
+	print('Вы бёрете язык');
+	$error = TRUE;
+} 
+
+if (!preg_match('/^[0, 1]$/', $_POST['pol'])){
+	print('Не бинарно');
+	$error=TRUE;
+} 
+
+if (strlen($_POST['biography'])>200){
+	print('Слишком длинно');
+	$error = TRUE;
+} 
+
+if (!$error) {
+
+
+
+include("../../../pass.php");
+$db = new PDO("mysql:host=localhost;dbname=$dbname", $user, $pass,
+  [PDO::ATTR_PERSISTENT => true, PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
+try {
+	$stmt = $db->prepare("INSERT INTO applications VALUES (0, ?, ?, ?, ?, ?, ?)");
+	$stmt -> execute([$_POST['name1'], $_POST['tel'], $_POST['email'],
+					$_POST['date1'], $_POST['pol'], $_POST['biography']]);
+	$id_app = $db -> lastInsertId();
+	foreach($_POST['languages'] as $value) {
+		$stmt = $db->prepare("INSERT INTO app_langs VALUES (?, ?)");
+		$stmt -> execute([$id_app,$value]);
+	}
+}
+catch(PDOException $e){
+	print('Error 401');
+}
+
+}
+
+}
+
+
+?>
+
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="ru">
 
   <head>
     <meta charset="utf-8">
-    <title>Лабороторная работа №4</title>
+    <title>Лабороторная работа №3</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -25,7 +104,7 @@
         <form action="./" method="POST">
             <label>
                 Имя:<br />
-                <input name="name" required />
+                <input name="name1" required />
             </label><br />
 
             <label>
@@ -40,32 +119,32 @@
 
             <label>
                 Дата рождения:<br />
-                <input type="date" name="birthday" />
+                <input type="date1" name="birthday" />
             </label><br />
 
             Пол:<br />
             <label>
-                <input type="radio" checked="checked" name="пол"
-                       value="муж" /> Муж
+                <input type="radio" checked="checked" name="pol"
+                       value="0" /> Муж
             </label>
             <label>
-                <input type="radio" name="пол" value="жен" /> Жен
+                <input type="radio" name="pol" value="1" /> Жен
             </label><br />
 
             <label>
                 Любимые языки программирования:<br />
-                <select name="languages" multiple="multiple">
-                    <option value="Pascal">Pascal</option>
-                    <option value="C">C</option>
-                    <option value="C++">C++</option>
-                    <option value="JavaScript">JavaScript</option>
-                    <option value="PHP">PHP</option>
-                    <option value="Python">Python</option>
-                    <option value="Java">Java</option>
-                    <option value="Haskel">Haskel</option>
-                    <option value="Clojure">Clojure</option>
-                    <option value="Prolog">Prolog</option>
-                    <option value="Scala">Scala</option>
+                <select name="languages[]" multiple="multiple">
+                    <option value="1">Pascal</option>
+                    <option value="2">C</option>
+                    <option value="3">C++</option>
+                    <option value="4">JavaScript</option>
+                    <option value="5">PHP</option>
+                    <option value="6">Python</option>
+                    <option value="7">Java</option>
+                    <option value="8">Haskel</option>
+                    <option value="9">Clojure</option>
+                    <option value="10">Prolog</option>
+                    <option value="11">Scala</option>
                 </select>
             </label><br />
 
