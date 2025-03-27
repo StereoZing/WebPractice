@@ -6,45 +6,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 $error = FALSE;
 
 if (strlen($_POST['name1'])>150) {
-	print('Длина не более 150');
+	print('Длина не более 150'.PHP_EOL);
 	$error = TRUE;
 } elseif (preg_match('~[0-9]+~', $_POST['name1'])) {
-	print('Имя не должно содержать цифр');
+	print('Имя не должно содержать цифр'.PHP_EOL);
 	$error = TRUE;
 }
 
 if (!preg_match('/^\+7[0-9]{10}$/', $_POST['tel'])) {
-	print('Неверный формат');
+	print('Неверный формат'.PHP_EOL);
 	$error = TRUE;
 } 
 
 if (!preg_match('~@~', $_POST['email'])) {
-	print('Должна содержать @');
+	print('Должна содержать @'.PHP_EOL);
 	$error = TRUE;
 }
 
 $year =(int)substr($_POST['date1'],0,4);
 if($year<1800){
-	print('Ты уже давно умер');
+	print('Ты уже давно умер'.PHP_EOL);
 	$error = TRUE;
 } elseif ($year>2025) {
-	print('Мелковат');
+	print('Мелковат'.PHP_EOL);
 	$error = TRUE;
 } 
 
 if (empty($_POST['languages'])){
 	
-	print('Вы бёрете язык');
+	print('Вы бёрете язык'.PHP_EOL);
 	$error = TRUE;
 } 
 
 if (!preg_match('/^[0, 1]$/', $_POST['pol'])){
-	print('Не бинарно');
+	print('Не бинарно'.PHP_EOL);
 	$error=TRUE;
 } 
 
 if (strlen($_POST['biography'])>200){
-	print('Слишком длинно');
+	print('Слишком длинно'.PHP_EOL);
 	$error = TRUE;
 } 
 
