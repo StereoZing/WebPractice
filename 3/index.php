@@ -9,7 +9,7 @@ if (strlen($_POST['name1'])>150) {
 	print('Длина не более 150');
 	$error = TRUE;
 } elseif (preg_match('~[0-9]+~', $_POST['name1'])) {
-	print('Имя не должно содержать цифр')
+	print('Имя не должно содержать цифр');
 	$error = TRUE;
 }
 
