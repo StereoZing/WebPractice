@@ -13,7 +13,7 @@ if (strlen($_POST['name1'])>150) {
 	$error = TRUE;
 }
 
-if (!preg_match('/^+7[0-9]{10}$/', $_POST['tel'])) {
+if (!preg_match('/^\+7[0-9]{10}$/', $_POST['tel'])) {
 	print('Неверный формат');
 	$error = TRUE;
 } 
