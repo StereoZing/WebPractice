@@ -25,7 +25,7 @@ if (!preg_match('~@~', $_POST['email'])) {
 
 $year =(int)substr($_POST['date1'],0,4);
 if($year<1800){
-	print('Ты уже давно умер'.PHP_EOL);
+	print('Слишком давно'.PHP_EOL);
 	$error = TRUE;
 } elseif ($year>2025) {
 	print('Мелковат'.PHP_EOL);
